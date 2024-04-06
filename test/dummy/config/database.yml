@@ -1,0 +1,12 @@
+default: &default
+  adapter: sqlite3
+  database: db/<%= Rails.env.to_s %>.sqlite3
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

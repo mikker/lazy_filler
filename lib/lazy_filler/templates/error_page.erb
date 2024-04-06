@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+      }
+      label, input, button {
+        display: block;
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1><%= exception.message %></h1>
+
+    <form action="/__lazy_filler" method="post">
+      <input type="hidden" name="key" value="<%= key %>">
+
+      <label for="value"><%= key %></label>
+      <input type="text" name="value" id="value">
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>
