@@ -25,6 +25,28 @@ module LazyFiller
       matches[1]
     end
 
+    def key_without_locale
+      key.sub(/\A\w+\./, "")
+    end
+
+    def title
+      exception.message
+    end
+
+    def locale
+      key.split(".").first
+    end
+
+    def other_translations
+      I18n.available_locales.each_with_object({}) do |locale, obj|
+        obj[locale] = (I18n.t(key_without_locale, locale: locale) rescue nil)
+      end
+    end
+
+    def locale_file
+      "#{locale}.yml"
+    end
+
     private
 
     def engine

@@ -23,6 +23,6 @@ module Dummy
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    config.i18n.available_locales = %i[en test]
+    config.i18n.available_locales = %i[en test da]
   end
 end

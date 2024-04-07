@@ -2,26 +2,95 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title></title>
-    <style>
-      body {
-        font-family: system-ui, sans-serif;
-      }
-      label, input, button {
-        display: block;
-        margin: 10px 0;
-      }
-    </style>
+    <title><%= title %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
-    <h1><%= exception.message %></h1>
+  <body
+    class="p-5 text-base text-gray-800 bg-white dark:text-gray-100 dark:bg-gray-900"
+  >
+    <div class="py-8 mx-auto space-y-8 max-w-prose">
+      <h1 class="flex gap-2 items-center text-xl font-bold">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="text-red-500 size-[1.5em]"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+          />
+        </svg>
 
-    <form action="/__lazy_filler" method="post">
-      <input type="hidden" name="key" value="<%= key %>">
+        <span><%= title %></span>
+      </h1>
 
-      <label for="value"><%= key %></label>
-      <input type="text" name="value" id="value">
-      <button type="submit">Submit</button>
-    </form>
+      <form action="/__lazy_filler" method="post">
+        <div class="flex flex-col gap-y-4 items-start">
+          <input type="hidden" name="key" value="<%= key %>">
+
+          <label for="value" class="">
+            <strong>Key:</strong>
+            <code><%= key %></code>
+          </label>
+          <textarea
+            type="text"
+            name="value"
+            id="value"
+            class="py-2 px-3 w-full text-base rounded border border-gray-400 ring-blue-300 shadow-inner appearance-none outline-none focus:ring"
+            placeholder="Translation"
+            autofocus
+          ></textarea>
+          <button
+            type="submit"
+            class="py-2 px-3 font-semibold text-white bg-blue-500 rounded ring-blue-300 appearance-none outline-none focus:ring"
+          >Write to
+            <code><%= locale_file %></code></button>
+        </div>
+      </form>
+
+      <div class="space-y-4">
+        <h2 class="font-bold">Other translations</h2>
+        <table class="border border-gray-400">
+          <% cell_cls = "text-left p-2 border border-gray-400" %>
+          <thead>
+            <tr>
+              <th class="<%= cell_cls %>">Locale</th>
+              <th class="<%= cell_cls %>">Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% other_translations.each do |locale, translation| %>
+              <tr>
+                <td class="<%= cell_cls %>"><code><%= locale %></code></td>
+                <td class="<%= cell_cls %>"><%= translation %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="space-y-4">
+        <h2 class="font-bold">Put the GPUs to work</h2>
+        <p>Copy this into ChatGPT or alike:</p>
+
+        <div class="p-5 space-y-4 italic rounded border">
+          <p>
+            You are a translation bot. I will give key-value translations in
+            YAML format and your job is to provide values for the keys I send
+            you. You must only reply with the value and nothing else.
+            <br><br>
+            Given these translations<br>
+            <%= other_translations.map { |k, v| "  #{k}: #{v}" }.join("<br>") %>
+            <br><br>
+            What would be the value of<br>
+            en:
+          </p>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
