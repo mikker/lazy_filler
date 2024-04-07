@@ -3,7 +3,39 @@
   <head>
     <meta charset="UTF-8">
     <title><%= title %></title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/__lazy_filler/styles.css">
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("update_form");
+        const value = document.getElementById("value");
+        const statusOk = document.getElementById("status-ok");
+        const submitButton = document.getElementById("submit");
+
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const formData = new FormData(form);
+
+          submitButton.disabled = true;
+          value.disabled = true;
+
+          const response = await fetch(form.action, {
+            method: form.method,
+            body: formData,
+          });
+
+          if (response.ok) {
+            statusOk.style.display = "flex";
+
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          } else {
+            alert("Failed to update translation");
+          }
+        });
+      });
+    </script>
   </head>
   <body
     class="p-5 text-base text-gray-800 bg-white dark:text-gray-100 dark:bg-gray-900"
@@ -28,7 +60,7 @@
         <span><%= title %></span>
       </h1>
 
-      <form action="/__lazy_filler" method="post">
+      <form id="update_form" action="/__lazy_filler" method="post">
         <div class="flex flex-col gap-y-4 items-start">
           <input type="hidden" name="key" value="<%= key %>">
 
@@ -40,15 +72,39 @@
             type="text"
             name="value"
             id="value"
-            class="py-2 px-3 w-full text-base rounded border border-gray-400 ring-blue-300 shadow-inner appearance-none outline-none focus:ring"
+            class="py-2 px-3 w-full text-base rounded border border-gray-400 ring-blue-300 shadow-inner appearance-none outline-none focus:ring disabled:bg-gray-100 disabled:cursor-not-allowed"
             placeholder="Translation"
             autofocus
+            required
           ></textarea>
-          <button
-            type="submit"
-            class="py-2 px-3 font-semibold text-white bg-blue-500 rounded ring-blue-300 appearance-none outline-none focus:ring"
-          >Write to
-            <code><%= locale_file %></code></button>
+          <div class="flex gap-2 items-center">
+            <button
+              type="submit"
+              id="submit"
+              class="py-2 px-3 font-semibold text-white bg-blue-500 rounded ring-blue-300 appearance-none outline-none focus:ring disabled:opacity-50 disabled:cursor-not-allowed"
+            >Write to
+              <code><%= locale_file %></code></button>
+            <div
+              id="status-ok"
+              class="hidden gap-2 items-center p-1 pr-3 text-sm font-semibold text-green-900 bg-green-400 rounded-full border border-green-500"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="text-green-600 size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+              <span>Added, reloading...</span>
+            </div>
+          </div>
         </div>
       </form>
 

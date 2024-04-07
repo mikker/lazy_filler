@@ -1,0 +1,2 @@
+web: rerun -p "**/*.rb" rails -- s -p 3030
+css: npx tailwindcss --content 'lib/lazy_filler/templates/**/*.erb' -o lib/lazy_filler/templates/styles.css -w

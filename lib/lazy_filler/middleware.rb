@@ -9,11 +9,21 @@ module LazyFiller
     def call(env)
       if @update_handler.matches?(env)
         return @update_handler.call(env)
+      elsif env["PATH_INFO"] == "/__lazy_filler/styles.css"
+        return [
+          200,
+          {"Content-Type" => "text/css"},
+          [css]
+        ]
       end
 
       @app.call(env)
     rescue ActionView::Template::Error => e
       @error_page.render(e)
+    end
+
+    def css
+      @css ||= File.read(File.expand_path("../templates/styles.css", __FILE__))
     end
   end
 end
