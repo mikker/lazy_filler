@@ -34,13 +34,16 @@ module LazyFiller
     end
 
     def locale
-      key.split(".").first
+      key.split(".").first.to_sym
     end
 
     def other_translations
-      I18n.available_locales.each_with_object({}) do |locale, obj|
-        obj[locale] = (I18n.t(key_without_locale, locale: locale) rescue nil)
-      end
+      I18n
+        .available_locales
+        .reject { |k, _| k == locale }
+        .each_with_object({}) do |locale, obj|
+          obj[locale] = (I18n.t(key_without_locale, locale: locale) rescue nil)
+        end
     end
 
     def locale_file

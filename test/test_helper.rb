@@ -10,5 +10,13 @@ if ActiveSupport::TestCase.respond_to?(:fixture_paths=)
   ActiveSupport::TestCase.fixture_paths = [File.expand_path("fixtures", __dir__)]
   ActionDispatch::IntegrationTest.fixture_paths = ActiveSupport::TestCase.fixture_paths
   ActiveSupport::TestCase.file_fixture_path = File.expand_path("fixtures", __dir__) + "/files"
-  ActiveSupport::TestCase.fixtures :all
+  ActiveSupport::TestCase.fixtures(:all)
+end
+
+# ActionView::Template::Error uses $! to get the originally raised exception
+# so we raise an exception and builds an ActionView::Template::Error object from it
+def template_error
+  raise Exception.new("translation missing: en.hello")
+rescue Exception => e
+  ActionView::Template::Error.new(e)
 end

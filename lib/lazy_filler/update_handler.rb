@@ -23,7 +23,7 @@ module LazyFiller
         f << YAML.dump(updated_yaml)
       end
 
-      [200, {"Content-Type" => "text/plain; utf-8"}, ["got it 🫡"]]
+      [200, {"Content-Type" => "application/json"}, ["{\"status\": \"ok\"}"]]
     end
 
     def self.call(env)

@@ -1,11 +1,7 @@
 module LazyFiller
   class Railtie < ::Rails::Railtie
     initializer("lazy_filler.configure_rails_initialization") do
-      if use_lazy_filler?
-        insert_middleware
-        # BetterErrors.logger = Rails.logger
-        # BetterErrors.application_root = Rails.root.to_s
-      end
+      insert_middleware if use_lazy_filler?
     end
 
     def insert_middleware
