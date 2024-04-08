@@ -2,6 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
+    <!-- If loaded via Turbo, force reload -->
+    <meta name="turbo-visit-control" content="reload">
     <title><%= title %></title>
     <link rel="stylesheet" href="/__lazy_filler/styles.css">
     <script>
@@ -60,7 +62,7 @@
         <span><%= title %></span>
       </h1>
 
-      <form id="update_form" action="/__lazy_filler" method="post">
+      <form id="update_form" action="/__lazy_filler" method="post" data-turbo="false">
         <div class="flex flex-col gap-y-4 items-start">
           <input type="hidden" name="key" value="<%= key %>">
 

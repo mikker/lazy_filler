@@ -5,4 +5,5 @@ require "lazy_filler/error_page"
 require "lazy_filler/update_handler"
 
 module LazyFiller
+  cattr_accessor :yaml_options, default: {line_width: -1}
 end
