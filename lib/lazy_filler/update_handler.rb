@@ -44,7 +44,15 @@ module LazyFiller
     end
 
     def dump(tree, options = nil)
-      tree.to_yaml(options || LazyFiller.yaml_options)
+      strip_trailing_spaces(restore_emojis(tree.to_yaml(options || LazyFiller.yaml_options)))
+    end
+
+    def restore_emojis(yaml)
+      yaml.gsub(EMOJI_REGEX) { |m| [m[-8..].to_i(16)].pack("U") }
+    end
+
+    def strip_trailing_spaces(yaml)
+      yaml.gsub(TRAILING_SPACE_REGEX, "")
     end
   end
 end
