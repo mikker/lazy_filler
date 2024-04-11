@@ -19,7 +19,13 @@ module LazyFiller
 
       @app.call(env)
     rescue ActionView::Template::Error => e
-      @error_page.render(e)
+      if e.message.match?(/translation missing:/i)
+        Rails.logger.debug("LazyFiller: Intercepted #{e.inspect}")
+        Rails.logger.debug("\t#{e.message}")
+        return @error_page.render(e)
+      end
+
+      raise
     end
 
     def css

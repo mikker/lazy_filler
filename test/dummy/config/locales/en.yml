@@ -1,5 +1,7 @@
 ---
 en:
   pages:
-    index:
+    missing_key:
       valid: Valid key
+    missing_var:
+      today: Today is %{date}, %{two}

@@ -24,5 +24,6 @@ module Dummy
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.i18n.available_locales = %i[en test da]
+    config.i18n.raise_on_missing_translations = true
   end
 end
